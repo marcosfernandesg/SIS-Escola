@@ -22,4 +22,20 @@ public class AlunoService {
     public List<Aluno> listar() {
         return repository.findAll();
     }
+
+    public Aluno buscarPorId(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+    }
+
+    public Aluno atualizar(Long id, Aluno aluno) {
+        Aluno existente = buscarPorId(id);
+        existente.setNome(aluno.getNome());
+        existente.setIdade(aluno.getIdade());
+        return repository.save(existente);
+    }
+
+    public void deletar(Long id) {
+        repository.deleteById(id);
+    }
 }
