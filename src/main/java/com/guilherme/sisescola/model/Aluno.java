@@ -1,6 +1,7 @@
 package com.guilherme.sisescola.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Aluno {
@@ -13,7 +14,9 @@ public class Aluno {
     private String email;
     private String matricula;
 
-    // construtor vazio (obrigatório para JPA)
+    @ManyToMany(mappedBy = "alunos")
+    private List<Turma> turmas;
+
     public Aluno() {}
 
     public Aluno(String nome, String email, String matricula) {
@@ -38,6 +41,10 @@ public class Aluno {
         return matricula;
     }
 
+    public List<Turma> getTurmas() {
+        return turmas;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -48,5 +55,9 @@ public class Aluno {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+    }
+
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
     }
 }

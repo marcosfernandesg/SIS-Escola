@@ -31,9 +31,11 @@ public class AlunoService {
     public Aluno atualizar(Long id, Aluno aluno) {
         Aluno existente = buscarPorId(id);
         existente.setNome(aluno.getNome());
-        existente.setIdade(aluno.getIdade());
+        existente.setEmail(aluno.getEmail());
+        existente.setMatricula(aluno.getMatricula());
         return repository.save(existente);
     }
+
 
     public void deletar(Long id) {
         repository.deleteById(id);
