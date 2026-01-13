@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVP SIS Escola</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #eee; }
+        input, select, button { margin: 5px 0; padding: 5px; }
+    </style>
+</head>
+<body>
+
+<h2>Turmas</h2>
+<table id="schoolClassTable">
+    <tr><th>ID</th><th>Name</th><th>Year</th></tr>
+</table>
+
+<h3>Criar nova turma</h3>
+<input type="text" id="className" placeholder="Nome da turma">
+<input type="number" id="classYear" placeholder="Ano">
+<button onclick="createSchoolClass()">Salvar turma</button>
+
+<hr>
+
+<h2>Alunos</h2>
+<table id="studentTable">
+    <tr><th>ID</th><th>Name</th><th>Turma</th></tr>
+</table>
+
+<h3>Criar novo aluno</h3>
+<input type="text" id="studentName" placeholder="Nome do aluno">
+<select id="studentClassSelect"></select>
+<button onclick="createStudent()">Salvar aluno</button>
+
+<script>
+const apiBase = '/api'; // Base da sua API
+
+// ------------------ SCHOOLCLASS ------------------
+
+async function fetchSchoolClasses() {
+    const res = await fetch(`${apiBase}/schoolclass`);
+    const data = await res.json();
+    const table = document.getElementById('schoolClassTable');
+    table.innerHTML = "<tr><th>ID</th><th>Name</th><th>Year</th></tr>";
+    const select = document.getElementById('studentClassSelect');
+    select.innerHTML = "";
+    data.forEach(cls => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = cls.id;
+        row.insertCell(1).innerText = cls.name;
+        row.insertCell(2).innerText = cls.year;
+        // Preenche dropdown de alunos
+        const option = document.createElement("option");
+        option.value = cls.id;
+        option.text = cls.name;
+        select.add(option);
+    });
+}
+
+async function createSchoolClass() {
+    const name = document.getElementById('className').value;
+    const year = parseInt(document.getElementById('classYear').value);
+    await fetch(`${apiBase}/schoolclass`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, year })
+    });
+    document.getElementById('className').value = "";
+    document.getElementById('classYear').value = "";
+    fetchSchoolClasses();
+}
+
+// ------------------ STUDENT ------------------
+
+async function fetchStudents() {
+    const res = await fetch(`${apiBase}/student`);
+    const data = await res.json();
+    const table = document.getElementById('studentTable');
+    table.innerHTML = "<tr><th>ID</th><th>Name</th><th>Turma</th></tr>";
+    data.forEach(stu => {
+        const row = table.insertRow();
+        row.insertCell(0).innerText = stu.id;
+        row.insertCell(1).innerText = stu.name;
+        row.insertCell(2).innerText = stu.schoolClass ? stu.schoolClass.name : '';
+    });
+}
+
+async function createStudent() {
+    const name = document.getElementById('studentName').value;
+    const classId = parseInt(document.getElementById('studentClassSelect').value);
+    await fetch(`${apiBase}/student`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, schoolClass: { id: classId } })
+    });
+    document.getElementById('studentName').value = "";
+    fetchStudents();
+}
+
+// ------------------ INICIALIZAÇÃO ------------------
+fetchSchoolClasses();
+fetchStudents();
+</script>
+
+</body>
+</html>
