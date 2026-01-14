@@ -259,7 +259,6 @@ Ou pela IDE: Execute a classe `SisescolaaApplication.java`
 ![Swagger UI](./screenshots/swagger-ui.png)
 *Documentação interativa da API*
 
-> **📌 Nota:** Crie uma pasta `screenshots/` na raiz do projeto e adicione prints do sistema funcionando!
 
 ---
 
