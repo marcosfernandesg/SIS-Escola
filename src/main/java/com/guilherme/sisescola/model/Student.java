@@ -1,26 +1,32 @@
 package com.guilherme.sisescola.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-// Entidade que representa um Aluno
 @Entity
+@Table(name = "student")
 public class Student {
 
-    // Identificador técnico do Aluno
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Nome do Aluno
     private String name;
 
-    // Turma à qual o Aluno pertence
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "school_class_id")
+    @JsonBackReference
     private SchoolClass schoolClass;
+
+    public Student() {
+    }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

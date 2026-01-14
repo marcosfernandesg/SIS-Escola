@@ -1,45 +1,37 @@
 package com.guilherme.sisescola.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 
-/**
- * Entidade que representa uma turma escolar.
- * Agrupa alunos de um mesmo ano/série.
- */
+import java.util.List;
+
 @Entity
+@Table(name = "school_class")
 public class SchoolClass {
 
-    /**
-     * Identificador técnico da turma.
-     * Gerado automaticamente pelo banco de dados.
-     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * Nome visível da turma (ex: "3rd Grade A").
-     */
     private String name;
 
-    /**
-     * Ano letivo da turma (ex: 2026).
-     */
-    private Integer year;
+    // Mudamos o nome aqui para evitar conflito com a palavra reservada 'year'
+    @Column(name = "class_year")
+    private Integer schoolYear;
+
+    @OneToMany(mappedBy = "schoolClass", fetch = FetchType.EAGER)
+    @JsonManagedReference  // Adicione essa anotação
+    private List<Student> students;
+
+    public SchoolClass() {
+    }
 
     public Long getId() {
         return id;
     }
 
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -48,5 +40,22 @@ public class SchoolClass {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    // Ajuste nos nomes dos métodos também
+    public Integer getSchoolYear() {
+        return schoolYear;
+    }
+
+    public void setSchoolYear(Integer schoolYear) {
+        this.schoolYear = schoolYear;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 }
