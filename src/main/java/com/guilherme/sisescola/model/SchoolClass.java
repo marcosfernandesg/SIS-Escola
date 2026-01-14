@@ -19,10 +19,10 @@ public class SchoolClass {
     @Column(name = "class_year")
     private Integer schoolYear;
 
-    @OneToMany(mappedBy = "schoolClass", fetch = FetchType.EAGER)
-    @JsonManagedReference  // Adicione essa anotação
+    @OneToMany(mappedBy = "schoolClass", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Student> students;
-
+    
     public SchoolClass() {
     }
 
