@@ -252,7 +252,7 @@ Ou pela IDE: Execute a classe `SisescolaaApplication.java`
 *Visão geral das turmas e alunos*
 
 ### 📊 Lançamento de Notas
-![Modal de Notas](./screenshots/modal-notas.png)
+![Modal de Notas](./screenshots/notas.png)
 *Sistema de notas com histórico*
 
 ### 📖 Documentação Swagger
