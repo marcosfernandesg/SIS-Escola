@@ -3,6 +3,7 @@ package com.guilherme.sisescola.controller;
 import com.guilherme.sisescola.model.SchoolClass;
 import com.guilherme.sisescola.service.SchoolClassService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,13 @@ public class SchoolClassController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSchoolClass(@PathVariable Long id){
-        schoolClassService.deleteById(id);
+    public ResponseEntity<Void> deleteSchoolClass(@PathVariable Long id) {
+        try {
+            schoolClassService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace(); // ← Isso vai mostrar o erro no terminal
+            return ResponseEntity.status(500).build();
+        }
     }
 }
