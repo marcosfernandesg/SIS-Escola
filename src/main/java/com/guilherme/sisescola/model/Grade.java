@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "grade")
+@Table(name = "student_grade")
 public class Grade {
 
     @Id
@@ -16,7 +16,7 @@ public class Grade {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id")
-    @JsonBackReference  // ← IMPORTANTE
+    @JsonBackReference
     private Student student;
 
     // Construtor vazio
