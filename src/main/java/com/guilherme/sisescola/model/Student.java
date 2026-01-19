@@ -4,6 +4,7 @@
     import com.fasterxml.jackson.annotation.JsonManagedReference;
     import jakarta.persistence.*;
 
+    import java.util.ArrayList;
     import java.util.List;
 
     @Entity
@@ -23,8 +24,7 @@
 
         @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
         @JsonManagedReference
-        private List<Grade> grades;
-
+        private List<Grade> grades = new ArrayList<>();
         public Student() {
         }
 
